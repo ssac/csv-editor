@@ -26,10 +26,6 @@ export interface RowCbParams<T> {
 	rows: T[]
 }
 
-export interface CollectionOpts<K> {
-	
-}
-
 export interface CollectionConstructorArgs {
 	fileOpts: FileOpts
 	parserOpts?: Options
@@ -59,33 +55,6 @@ export default class<T extends RowData> extends Parser<T> {
 			parserOpts: args.parserOpts
 		});
 	}
-
-	// public async getRowById({
-	// 	idValue
-	// }: {
-	// 	idValue: string
-	// }): Promise<T> {
-	// 	const parsedRecords = await this.parseFile();
-
-	// 	for(const record of parsedRecords) {
-	// 		if (idValue === record?.[this.opts?.idField]) {
-	// 			return record;
-	// 		}
-	// 	}
-
-	// 	return null;
-	// }
-
-	// public async getCellById({
-	// 	idValue,
-	// 	targetField
-	// }: {
-	// 	idValue: string;
-	// 	targetField: string;
-	// }): Promise<string> {
-	// 	const row = await this.getRowById({idValue});
-	// 	return row?.[targetField] || '';
-	// }
 
 	public async checkIfSuit({
 		query,
@@ -159,71 +128,6 @@ export default class<T extends RowData> extends Parser<T> {
 
 		return result;
 	}
-
-	// public async editFieldById({
-	// 	idValue,
-	// 	field,
-	// 	value,
-	// 	isSaveOnDone = true,
-	// }: {
-	// 	idValue: string
-	// 	field: string
-	// 	value?: string | RowExtractorSync<T> | RowExtractorAsync<T>
-	// 	isSaveOnDone: boolean
-	// }): Promise<CollectionWriteResponse<T>> {
-	// 	if (!this.opts?.idField) {
-	// 		throw new Error(`No ID field specified to this instance.`);
-	// 	}
-
-	// 	const getValue = async (rowArgs: RowCbParams<T>): Promise<string> => {
-	// 		switch(value.constructor.name) {
-	// 			case 'String':
-	// 				return value as string;
-	// 			case 'Function':
-	// 				return (value as RowExtractorSync<T>)(rowArgs);
-	// 			case 'AsyncFunction':
-	// 				return await (value as RowExtractorAsync<T>)(rowArgs);
-	// 			default:
-	// 				throw new Error(`Passing wrong type of value: ${typeof value}`);
-	// 		}
-	// 	}
-
-	// 	const parsedRecords = await this.parseFile();
-	// 	const clonedList = parsedRecords.slice();
-	// 	const resultRows: T[] = [];
-		
-	// 	while(clonedList.length > 0) {
-	// 		const shiftedRow = clonedList.shift();
-
-	// 		if (shiftedRow?.[this.opts.idField] === idValue) {
-	// 			const newCell = await getValue({
-	// 				row: shiftedRow,
-	// 				rows: parsedRecords,
-	// 			});
-
-	// 			resultRows.push({
-	// 				...shiftedRow,
-	// 				[field]: newCell
-	// 			});
-	// 		} else {
-	// 			resultRows.push(shiftedRow);
-	// 		}
-	// 	}
-
-	// 	let fileWriteResp: FileWriteResponse = {
-	// 		outputPath: '',
-	// 		backupPath: '',
-	// 	}
-
-	// 	if (isSaveOnDone) {
-	// 		fileWriteResp = await this.writeFile(resultRows);
-	// 	}
-
-	// 	return {
-	// 		...fileWriteResp,
-	// 		resultRows
-	// 	}
-	// }
 
 	public async loop({
 		query,
