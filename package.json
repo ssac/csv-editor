@@ -1,7 +1,7 @@
 {
-  "name": "csv-helper",
+  "name": "csv-editor",
   "version": "1.0.0",
-  "description": "Utility to manipulate .csv file.",
+  "description": "Utilities to manipulate .csv file.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ssac/csv-helper.git"
+    "url": "git+https://github.com/ssac/csv-editor.git"
   },
   "keywords": [
     "csv",
@@ -27,9 +27,9 @@
   "author": "ssac",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ssac/csv-helper/issues"
+    "url": "https://github.com/ssac/csv-editor/issues"
   },
-  "homepage": "https://github.com/ssac/csv-helper#readme",
+  "homepage": "https://github.com/ssac/csv-editor#readme",
   "files": [
     "/dist"
   ],

@@ -1,4 +1,4 @@
-# CSV Helper
+# CSV Editor
 
 Utilities to manipulate .csv file along with parse and output features.
 
@@ -12,7 +12,7 @@ Test data:
 |Sue|F|16|
 
 ```typescript
-import { DbLike } from 'csv-helper';
+import { DbLike } from 'csv-editor';
 
 // "name" is the id key name
 const helper = new DbLike<"name", {name: string, sex: 'M' | 'F', age: string}>({
@@ -84,7 +84,7 @@ Output:
 
 #### Manipulate rows one by one
 ```typescript
-import Collection from 'csv-helper';
+import Collection from 'csv-editor';
 
 // "name" is the id key name
 const helper = new Collection<{name: string, sex: 'M' | 'F', age: string}>({
@@ -120,7 +120,7 @@ Output:
 ## API docs
 ### `DbLike` Class
 ```typescript
-import { DbLike } from 'csv-helper';
+import { DbLike } from 'csv-editor';
 import * as path from 'path';
 
 const helper = new DbLike({
