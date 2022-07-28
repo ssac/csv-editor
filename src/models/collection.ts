@@ -6,7 +6,7 @@ import type {
 
 import type {
 	FileOpts,
-	FileWriteResponse
+	FileWriteResponse,
 } from './file';
 
 import Parser from './parser';

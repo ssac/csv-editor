@@ -17,8 +17,6 @@ export interface FileOpts {
 	outputPath?: string
 }
 
-
-
 export default class {
 	private args: FileOpts;
 

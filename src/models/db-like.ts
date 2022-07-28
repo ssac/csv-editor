@@ -4,12 +4,11 @@ import type {
 
 import type {
 	FileOpts,
-	FileWriteResponse
 } from './file';
 
 import Collection, {
 	CellTransformer,
-	CollectionWriteResponse
+	CollectionWriteResponse,
 } from './collection';
 
 export interface DbLikeOpts<K> {
