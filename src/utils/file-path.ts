@@ -3,9 +3,9 @@ import * as os from 'os';
 import * as path from 'path';
 
 export function getRandomFileName(): string {
-	return `${uuidv4()}.csv`;
+  return `${uuidv4()}.csv`;
 }
 
 export function getRandomFilePath(): string {
-	return path.resolve(os.tmpdir(), getRandomFileName());
+  return path.resolve(os.tmpdir(), getRandomFileName());
 }

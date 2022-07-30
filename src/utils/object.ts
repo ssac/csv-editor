@@ -7,13 +7,13 @@ import * as _ from 'lodash';
  * @returns If subObj part of mainObj, return true, otherwise false.
  */
 export const checkIfPartial = (subObj: object, mainObj: object): boolean => {
-	const keys = _.keys(subObj);
+  const keys = _.keys(subObj);
 
-	for(const key of keys) {
-		if (subObj[key] !== mainObj[key]) {
-			return false;
-		}
-	}
+  for (const key of keys) {
+    if (subObj[key] !== mainObj[key]) {
+      return false;
+    }
+  }
 
-	return true;
-}
+  return true;
+};
