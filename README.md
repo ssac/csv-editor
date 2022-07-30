@@ -11,6 +11,7 @@ Test data:
 |Peter|M|18|
 |Sue|F|16|
 
+
 ```typescript
 import { DbLike } from 'csv-editor';
 
@@ -48,8 +49,9 @@ Output:
 
 |name|sex|age|
 |--|--|--|
-|Peter|M|_**18**_|
+|Peter|M|_**25**_|
 |Sue|F|16|
+
 
 #### Edit cell value by passing call back function (sync or async)
 ```typescript
@@ -81,6 +83,7 @@ Output:
 |--|--|--|
 |Peter|_**F**_|18|
 |Sue|F|16|
+
 
 #### Manipulate rows one by one
 ```typescript
@@ -119,6 +122,9 @@ Output:
 
 ## API docs
 ### `DbLike` Class
+This is a class to handle a list of object with unique ID.
+Initialize the helper like below:
+
 ```typescript
 import { DbLike } from 'csv-editor';
 import * as path from 'path';
@@ -156,16 +162,17 @@ const resp: CollectionWriteResponse = await helper.editCellById(args: {
     isSaveOnDone: boolean;
 })
 ```
-##### Value
+##### `value`
 How to change the cell value.
 - Direct value. Assign the value directly to a field.
 - A call back function: `({row, rows}) => string`
 - Async call back function: `async ({row, rows}) => Promise<string>`
 
-##### isSaveOnDone
+##### `isSaveOnDone`
 When the edit is done, save the file automatically.
 
 ### `Collection` class
+
 #### .loop(...)
 ```typescript
 const resp: CollectionWriteResponse = await helper.loop(args: {
@@ -188,11 +195,12 @@ Define how to modify a row, returning a new row.
 - Call back function: ({row, rows}) => Row
 - Async call back function: async ({row, rows}) => Promise<Row>
 
-##### isSaveOnDone
+##### `isSaveOnDone`
 When the process is completed, save the file automatically.
 
-##### isSaveOnError
+##### `isSaveOnError`
 When error occurs during the process, save processed result rows + non handled rows.
+
 
 ### Common types
 #### CollectionWriteResponse
