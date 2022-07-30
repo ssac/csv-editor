@@ -11,7 +11,7 @@ Test data:
 |Peter|M|18|
 |Sue|F|16|
 
-
+For brevity, the rest of the examples will leave out the import and/or instantiation step.
 ```typescript
 import { DbLike } from 'csv-editor';
 
@@ -183,6 +183,31 @@ const resp: CollectionWriteResponse = await helper.loop(args: {
 });
 ```
 
+##### `isSaveOnDone`
+When the process is completed, save the file automatically.
+
+##### `isSaveOnError`
+When error occurs during the process, save processed result rows + non handled rows.
+
+
+### Common types
+
+##### Row
+A pure object.
+```typescript
+{[key: string]: string}
+```
+
+##### RowWithId
+A object with a property which value is unique in the same column of all rows.
+```typescript
+type RowData<K extends string> = {
+  [id in K]: string;
+} & {
+  [key: string]: string;
+};
+```
+
 ##### Query
 Used to filter rows need to be modified. All rows will be modified without this passed in.
 - Direct object: `{id: 'id001'}`
@@ -195,14 +220,6 @@ Define how to modify a row, returning a new row.
 - Call back function: ({row, rows}) => Row
 - Async call back function: async ({row, rows}) => Promise<Row>
 
-##### `isSaveOnDone`
-When the process is completed, save the file automatically.
-
-##### `isSaveOnError`
-When error occurs during the process, save processed result rows + non handled rows.
-
-
-### Common types
 #### CollectionWriteResponse
 The response contains row edit result.
 - `outputPath`: string; If the file was saved after function run, return the path of the output file, otherwise it will be ''.
