@@ -51,7 +51,7 @@ export default class<T extends RowData> extends Parser<T> {
     });
   }
 
-  public async checkIfSuit({ query, rows, row }: { query: Query<T>; row: T; rows: T[] }): Promise<boolean> {
+  private async validateQuery({ query, rows, row }: { query: Query<T>; row: T; rows: T[] }): Promise<boolean> {
     switch (query.constructor.name) {
       case 'Object':
         return UtilsObject.checkIfPartial(query, row);
@@ -93,12 +93,18 @@ export default class<T extends RowData> extends Parser<T> {
     }
   }
 
+  /**
+   * Iterates over elements of collection, returning an array of all elements pass the give query.
+   * @param query The criteria to filter rows
+   * @param once Pick one row only
+   * @returns List of rows suit the query criterial
+   */
   public async filter({ query, once }: { query: Query<T>; once: boolean }): Promise<T[]> {
     const parsedRows = await this.parseFile();
     const result: T[] = [];
 
     for (const row of parsedRows) {
-      if (await this.checkIfSuit({ query, row, rows: parsedRows })) {
+      if (await this.validateQuery({ query, row, rows: parsedRows })) {
         result.push(row);
 
         if (once) {
@@ -110,6 +116,14 @@ export default class<T extends RowData> extends Parser<T> {
     return result;
   }
 
+  /**
+   * Iterates all rows of a csv file, transforms rows thru given function.
+   * @param query Criteria to filter rows to transform.
+   * @param transformer A transform function to convert a row.
+   * @param isSaveOnDone After the transform done, save the result to file system.
+   * @param isSaveOnError When errors occur during transform process, save the transformed result and append the remaing rows to file system.
+   * @returns
+   */
   public async loop({
     query,
     transformer,
@@ -134,7 +148,7 @@ export default class<T extends RowData> extends Parser<T> {
 
         if (
           !query ||
-          (await this.checkIfSuit({
+          (await this.validateQuery({
             query,
             row: shiftedRow,
             rows: parsedRecords,
@@ -182,5 +196,33 @@ export default class<T extends RowData> extends Parser<T> {
 
       throw new Error(error);
     }
+  }
+
+  /**
+   * Rewrite the whole file
+   * @param transform A transform function to convert all elements of collection.
+   */
+  public async rewrite({ transform }: { transform: (rows: T[]) => Promise<T[]> }): Promise<CollectionWriteResponse<T>> {
+    const converted = await transform(await this.parseFile());
+
+    return {
+      ...(await this.writeFile(converted)),
+      resultRows: converted,
+    };
+  }
+
+  /**
+   * Sort a collection like Array.
+   * @param compareFn The compare function use like Javascript sort function.
+   * @returns A new collection after sort function.
+   */
+  public async sort(compareFn: (a: T, b: T) => number): Promise<CollectionWriteResponse<T>> {
+    return this.rewrite({
+      transform: async (rows) => {
+        const cloned = rows.slice();
+        cloned.sort(compareFn);
+        return cloned;
+      },
+    });
   }
 }

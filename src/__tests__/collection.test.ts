@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import { parse } from 'csv-parse/sync';
 
 import Helper from '../index';
+import * as UtilsConverter from '../utils/converter';
 
 function getContent(filePath: string) {
   return parse(fs.readFileSync(filePath), {
@@ -84,6 +85,27 @@ test('Test Helper.loop(), when error occurs', async () => {
       name: 'Sue',
       age: '16',
       sex: 'F', // <=== When error occurs, keep original data
+    },
+  ]);
+});
+
+test('Test Collection.sort()', async () => {
+  const result = await helper.sort((a, b) => {
+    return UtilsConverter.toNum(a.age) - UtilsConverter.toNum(b.age);
+  });
+
+  const outputContent = getContent(result.outputPath);
+
+  expect(outputContent).toStrictEqual([
+    {
+      name: 'Sue',
+      age: '16',
+      sex: 'F', // <=== When error occurs, keep original data
+    },
+    {
+      name: 'Peter',
+      age: '18',
+      sex: 'M', // <=== Changed
     },
   ]);
 });

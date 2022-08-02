@@ -14,7 +14,7 @@ export interface DbLikeArgs<K> {
   parserOpts?: Options;
 }
 
-export type RowData<K extends string> = {
+export type RowWithId<K extends string> = {
   [id in K]: string;
 } & {
   [key: string]: string;
@@ -23,7 +23,7 @@ export type RowData<K extends string> = {
 /**
  * DB Like class is used to handle objects with unique key (e.g. id filed)
  */
-export default class<K extends string, T extends RowData<K>> extends Collection<T> {
+export default class<K extends string, T extends RowWithId<K>> extends Collection<T> {
   private opts: DbLikeOpts<K>;
 
   constructor(args: DbLikeArgs<K>) {
@@ -60,6 +60,14 @@ export default class<K extends string, T extends RowData<K>> extends Collection<
     return row[targetField];
   }
 
+  /**
+   * Edit a cell of row.
+   * @param idValue The id value of specific id property.
+   * @param field Which field to edit.
+   * @param value How to change cell value.
+   * @param isSaveOnDone Save the result to file system.
+   * @returns Most updated rows and output file path is the save action trigger.
+   */
   public async editFieldById({
     idValue,
     field,
