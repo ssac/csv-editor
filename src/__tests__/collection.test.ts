@@ -109,3 +109,21 @@ test('Test Collection.sort()', async () => {
     },
   ]);
 });
+
+test('Test Collection.rewrite()', async () => {
+  const result = await helper.rewrite({
+    transform: async (rows) => {
+      return rows.filter((row) => row.sex === 'M');
+    },
+  });
+
+  const outputContent = getContent(result.outputPath);
+
+  expect(outputContent).toStrictEqual([
+    {
+      name: 'Peter',
+      age: '18',
+      sex: 'M',
+    },
+  ]);
+});

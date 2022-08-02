@@ -203,7 +203,7 @@ export default class<T extends RowData> extends Parser<T> {
    * @param transform A transform function to convert all elements of collection.
    */
   public async rewrite({ transform }: { transform: (rows: T[]) => Promise<T[]> }): Promise<CollectionWriteResponse<T>> {
-    const converted = await transform(await this.parseFile());
+    const converted = await transform((await this.parseFile()).slice());
 
     return {
       ...(await this.writeFile(converted)),
@@ -218,8 +218,7 @@ export default class<T extends RowData> extends Parser<T> {
    */
   public async sort(compareFn: (a: T, b: T) => number): Promise<CollectionWriteResponse<T>> {
     return this.rewrite({
-      transform: async (rows) => {
-        const cloned = rows.slice();
+      transform: async (cloned: T[]) => {
         cloned.sort(compareFn);
         return cloned;
       },

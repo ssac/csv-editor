@@ -190,6 +190,46 @@ When the process is completed, save the file automatically.
 When error occurs during the process, save processed result rows + non handled rows.
 
 
+### .rewrite()
+Rewrite all rows with your customized logic. 
+Use this function if you want to edit the all rows together only.
+If you want to edit rows one by one, use .loop instead.
+.sort(...) call this function under the hood.
+
+```typescript
+// Filter only male record.
+const resp: CollectionWriteResponse = await helper.rewrite({
+	transform: async (clonedRows) => {
+		return clonedRows.filter(row => row.sex === 'M')
+	}
+})
+```
+
+Output:
+
+|name|sex|age|
+|--|--|--|
+|Peter|M|18|
+
+
+### .sort(compareFn)
+```typescript
+// Sort row by age from small to large
+const resp: CollectionWriteResponse = await helper.sort(function(row1, row2) {
+	return (Number(row1.age)) - (Number(row2.age))
+});
+```
+
+##### `compareFn`
+The sort function to sort all rows of csv file.
+
+|return value|sort order|
+|-|-|
+|>0|sort a after b|
+|<0|sort a before b|
+|===0|keep original order of a and b|
+
+
 ### Common types
 
 ##### Row
