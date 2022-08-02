@@ -1,6 +1,6 @@
 {
   "name": "@ssac/csv-editor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Utilities to manipulate .csv file.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
