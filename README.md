@@ -13,7 +13,7 @@ Test data:
 
 For brevity, the rest of the examples will leave out the import and/or instantiation step.
 ```typescript
-import { DbLike } from 'csv-editor';
+import { DbLike } from '@ssac/csv-editor';
 
 // "name" is the id key name
 const helper = new DbLike<"name", {name: string, sex: 'M' | 'F', age: string}>({
@@ -87,7 +87,7 @@ Output:
 
 #### Manipulate rows one by one
 ```typescript
-import Collection from 'csv-editor';
+import Collection from '@ssac/csv-editor';
 
 // "name" is the id key name
 const helper = new Collection<{name: string, sex: 'M' | 'F', age: string}>({
