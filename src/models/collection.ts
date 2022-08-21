@@ -181,15 +181,8 @@ export default class<T extends RowData> extends Parser<T> {
     } catch (error) {
       if (!!isSaveOnError) {
         Logger.log(`Error occurs, now saving the processed data. error: ${error}`);
-
         const fileWriteResp = await this.writeFile([...processedRows, curProcessRow, ...clonedList]);
-
         Logger.log(`The intermediate file was saved at ${fileWriteResp.outputPath}`);
-
-        return {
-          ...fileWriteResp,
-          resultRows: processedRows,
-        };
       } else {
         Logger.log(`The process is configured not to save file while error occurs. error: ${error}`);
       }

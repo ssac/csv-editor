@@ -53,40 +53,29 @@ test('Test Helper.loop(), isSaveOnDone=true', async () => {
 });
 
 test('Test Helper.loop(), when error occurs', async () => {
-  const result = await helper.loop({
-    isSaveOnDone: true,
-    isSaveOnError: true,
-    transformer: ({ row, rows }) => {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Trigger error
-          if (row.name === 'Sue') {
-            return reject(`For testing error.`);
-          }
+  const run = async () => {
+    const result = await helper.loop({
+      isSaveOnDone: true,
+      isSaveOnError: true,
+      transformer: ({ row, rows }) => {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // Trigger error
+            if (row.name === 'Sue') {
+              return reject(`For testing error.`);
+            }
 
-          resolve({
-            ...row,
-            sex: row.sex === 'F' ? 'M' : 'F',
-          });
-        }, 20);
-      });
-    },
-  });
+            resolve({
+              ...row,
+              sex: row.sex === 'F' ? 'M' : 'F',
+            });
+          }, 20);
+        });
+      },
+    });
+  }
 
-  const outputContent = getContent(result.outputPath);
-
-  expect(outputContent).toStrictEqual([
-    {
-      name: 'Peter',
-      age: '18',
-      sex: 'F', // <=== Changed
-    },
-    {
-      name: 'Sue',
-      age: '16',
-      sex: 'F', // <=== When error occurs, keep original data
-    },
-  ]);
+  expect(run).rejects.toThrow('For testing error.');
 });
 
 test('Test Collection.sort()', async () => {
