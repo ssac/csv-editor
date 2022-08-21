@@ -73,7 +73,7 @@ test('Test Helper.loop(), when error occurs', async () => {
         });
       },
     });
-  }
+  };
 
   expect(run).rejects.toThrow('For testing error.');
 });
